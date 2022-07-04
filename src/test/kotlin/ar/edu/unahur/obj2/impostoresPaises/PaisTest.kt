@@ -3,6 +3,7 @@ package ar.edu.unahur.obj2.impostoresPaises
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.doubles.plusOrMinus
 import io.kotest.matchers.shouldBe
 
 class PaisTest:DescribeSpec( {
@@ -68,6 +69,28 @@ class PaisTest:DescribeSpec( {
       argentina.vecinoMasPoblado().shouldBe(brasil)
       chile.vecinoMasPoblado().shouldBe(argentina)
 
+    }
+    it("Para dos países en particular, indica si son limítrofes"){
+      argentina.sonLimitrofe(chile).shouldBeTrue()
+      argentina.sonLimitrofe(ecuador).shouldBeFalse()
+      brasil.sonLimitrofe(chile).shouldBeFalse()
+      brasil.sonLimitrofe(paraguay).shouldBeTrue()
+    }
+    it("Para dos países en particular,indica si necesitan traducción para poder dialogar.") {
+      argentina.necisitanTraductorDialogar(chile).shouldBeFalse()
+      argentina.necisitanTraductorDialogar(paraguay).shouldBeTrue()
+      brasil.necisitanTraductorDialogar(paraguay).shouldBeTrue()
+      //tienen en comun el idioma Ingles
+      brasil.necisitanTraductorDialogar(argentina).shouldBeFalse()
+
+    }
+    it("Para dos países en particular,indica si conviene ir de compras cuando la cotización del dólar en el país de destino es mayor"){
+      argentina.convieneIrDeCompras(brasil).shouldBeFalse()
+      argentina.convieneIrDeCompras(paraguay).shouldBeTrue()
+      brasil.convieneIrDeCompras(argentina).shouldBeTrue()
+    }
+    it("Para dos países en particular,describe a cuánto equivale un determinado monto en la moneda local"){
+      argentina.convertidorDeMoneda(brasil,10000.0).shouldBe(1138.47 plusOrMinus 0.01)
     }
 
   }
